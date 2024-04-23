@@ -5,7 +5,7 @@ const chatSchema = new Schema ({
     msg: {type: String},
 });
 
-const ChatModel = model("message", chatSchema);
+const ChatModel = model("messages", chatSchema);
 
 
 export { ChatModel };

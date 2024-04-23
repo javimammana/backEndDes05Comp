@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { ProductManager } from "../manager/ProductManager.js";
+import ChatManager from "../manager/ChatManager.js";
 
 const router = Router();
 const manager = new ProductManager();
@@ -30,6 +31,24 @@ router.get("/realtimeproducts", (req, res) => {
     }
 })
 
+//CHAT//
+router.get ("/messages", async (req, res) => {
+    try {
+        const chats = await ChatManager.getAllMessages();
+        // console.log(chats);
+        res.render("chat", {
+            title: "CHAT",
+            fileCss: "style.css",
+            chats,
+        });
+    } catch (e) {
+        console.log(e);
+        res.json({
+            message: "Error al leer Mensajes",
+            e,
+        });
+    }
+})
 
 
 export default router;

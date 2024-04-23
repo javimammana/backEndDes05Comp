@@ -36,7 +36,7 @@ class ProductManager {
 
     async getProducts () {
         try {
-            const productos = await ProductModel.find(); 
+            const productos = await ProductModel.find().lean(); 
             // console.log (productos);
             return productos;
         } catch (error) {

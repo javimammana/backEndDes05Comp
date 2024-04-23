@@ -10,6 +10,8 @@ import productRouter from "./routes/product.routes.js";
 import cartRouter from "./routes/cart.routes.js";
 import viewsRouter from "./routes/views.routes.js";
 
+import ChatManager from "./manager/ChatManager.js";
+
 
 const app = express();
 const PORT = 8080;
@@ -42,7 +44,7 @@ import { ProductManager } from "./manager/ProductManager.js";
 const manager = new ProductManager("./src/data/productos.json");
 
 io.on("connection", async (socket) => {
-    console.log ("Un cliente se conecta");
+    console.log ("Un cliente se conecta a PROD");
 
     //Productos en tiempo real.-
 
@@ -64,7 +66,23 @@ io.on("connection", async (socket) => {
 
     //CHAT!
 
+    const messages = await ChatManager.getAllMessages();
+    console.log("Nuevo usuario conectado al CHAT");
 
+    socket.on("message", async (data) => {
+        // console.log(data);
+        await ChatManager.sendMessage(data);
+        const messages = await ChatManager.getAllMessages();
+        io.emit("messages", messages);
+    });
+
+    socket.on("inicio", async (data) => {
+        const messages = await ChatManager.getAllMessages();
+        io.emit("messages", messages);
+        socket.broadcast.emit("connected", data);
+    });
+
+    socket.emit("messages", messages);
 })
 
 
