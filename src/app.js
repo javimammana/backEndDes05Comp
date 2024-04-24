@@ -22,6 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("./src/public"));
 
+//Configuramos Multer: 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "./src/public/img/productos");
@@ -31,6 +32,7 @@ const storage = multer.diskStorage({
     }
 })
 app.use(multer({storage}).single("image"));
+
 
 //Handlebars
 app.engine("handlebars", exphbs.engine());
@@ -52,7 +54,7 @@ const httpServer = app.listen(PORT, () => console.log(`Server listening on port 
 const  io = new Server(httpServer);
 
 import { ProductManager } from "./manager/ProductManager.js";
-const manager = new ProductManager("./src/data/productos.json");
+const manager = new ProductManager();
 
 io.on("connection", async (socket) => {
     console.log ("Un cliente se conecta a PROD");
@@ -68,7 +70,7 @@ io.on("connection", async (socket) => {
     });
 
     socket.on("addForForm", async (data) => {
-        console.log(data);
+        // console.log(data);
         const resultado = await manager.addProduct(data);
         // console.log (resultado);
         socket.emit("listProduct", await manager.getProducts());

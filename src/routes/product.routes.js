@@ -73,8 +73,7 @@ router.get ("/:pid", async (req, res) => {
     res.send (producto);
 })
 
-// router.post ("/", validateProd, async (req, res) => {
-    router.post ("/", async (req, res) => {
+router.post ("/", validateProd, async (req, res) => {
 
     const prodNvo = req.body;
 
