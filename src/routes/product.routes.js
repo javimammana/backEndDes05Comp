@@ -73,9 +73,23 @@ router.get ("/:pid", async (req, res) => {
     res.send (producto);
 })
 
-router.post ("/", validateProd, async (req, res) => {
-    // const {title, description, price, code, stock, category} = req.body;
-    const producto = req.body;
+// router.post ("/", validateProd, async (req, res) => {
+    router.post ("/", async (req, res) => {
+
+    const prodNvo = req.body;
+
+    let imgPrd = req.body.img
+
+    if (!req.body.img) {
+        imgPrd = "sinImg.png"
+    } 
+
+    const producto = {
+        ...prodNvo,
+        img: imgPrd
+    }
+    console.log("muestro el producto")
+    console.log (producto)
 
     try { const addProduct = await manager.addProduct(producto);
         if (addProduct?.error) { return res.status(409).json({error: addProduct.error})

@@ -4,13 +4,14 @@
             <h1>Agregar Productos</h1>
         </div>
 
-            <form id="addProductForm" class="rtForm">
+            <form action="/realtimeproducts" id="addProductForm" class="rtForm" enctype="multipart/form-data" method="POST">
                 <input class="rtFormItem" type="text" placeholder="Nombre de producto" name="title" id="title" required>
                 <input class="rtFormItem" type="text" placeholder="Categoria de producto" name="category" id="category" required>
                 <input class="rtFormItem" type="text" placeholder="Descripcion del producto" name="description" id="description" required>
                 <input class="rtFormItem" type="number" placeholder="Precio" name="price" id="price" required>
                 <input class="rtFormItem" type="text" placeholder="Codigo de producto" name="code" id="code" required>
                 <input class="rtFormItem" type="number" placeholder="Stock de producto" name="stock" id="stock" required>
+                <input class="rtFormItem" type="file" name="image" id="img">
 
                 <button class="rtFormBtn" type="submit" id="button">Cargar</button>
             </form>

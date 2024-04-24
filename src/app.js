@@ -1,6 +1,7 @@
 import express from "express";
 import exphbs from "express-handlebars";
 import { Server } from "socket.io";
+import multer from "multer";
 
 //base de datos
 import "./dataBase.js"
@@ -20,6 +21,16 @@ const PORT = 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("./src/public"));
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./src/public/img/productos");
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+})
+app.use(multer({storage}).single("image"));
 
 //Handlebars
 app.engine("handlebars", exphbs.engine());
@@ -59,9 +70,9 @@ io.on("connection", async (socket) => {
     socket.on("addForForm", async (data) => {
         console.log(data);
         const resultado = await manager.addProduct(data);
-        console.log (resultado);
+        // console.log (resultado);
         socket.emit("listProduct", await manager.getProducts());
-        socket.emit("resultado", resultado.error); //Aplicar la respuesta para mostrar en pantalla.-
+        socket.emit("resultado", resultado); //Aplicar la respuesta para mostrar en pantalla.-
     });
 
     //CHAT!

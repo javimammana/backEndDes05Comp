@@ -31,6 +31,7 @@ button.addEventListener("click", (e) => {
     const price = document.querySelector("#price");
     const code = document.querySelector("#code");
     const stock = document.querySelector("#stock");
+    const img = document.querySelector("#img");
 
     const newProduct = {
         title: title.value,
@@ -39,6 +40,7 @@ button.addEventListener("click", (e) => {
         price: Number(price.value),
         code: code.value.toUpperCase(),
         stock: Number(stock.value),
+        img: img.value == '' ? "sinImg.png" : "productos/" + document.getElementById("img").files[0].name
     };
     socket.emit("addForForm", newProduct);
 
